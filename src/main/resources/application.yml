@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    username: root
+    password: _tOBHuDry7-v
+    url: jdbc:mysql://127.0.0.1:3306/fileshare?characterEncoding=UTF-8&serverTimezone=UTC&useUnicode=true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  thymeleaf:
+    cache: false
+
+server:
+  port: 8080
