@@ -29,7 +29,7 @@ public class ResourceRepositoryTest {
 //    @Transactional
     public void save()  //上传文件的插入动作
     {
-        for(int i = 0;i<10;i++) {
+        for(int i = 10;i<20;i++) {
             ResourceEntity resourceEntity = new ResourceEntity();
             UserEntity userEntity = userRepository.findByUserId(4);
 //        System.out.println(userEntity);
@@ -62,8 +62,18 @@ public class ResourceRepositoryTest {
 //        List<ResourceEntity> list =  resourceRepository.findByDeleteFlagOrderByDownloadTimesDeleteFlagDesc(0);
 //       List<ResourceEntity> list = resourceRepository.findAllByDeleteFlagFalse();
 //        List<ResourceEntity> list = resourceRepository.count();
-     //    System.out.println(list);
+        //    System.out.println(list);
         List<ResourceEntity> list  = resourceRepository.findAllByDeleteFlagFalseOrderByDownloadTimesDesc();
+        System.out.println(resourceRepository.count());
+        System.out.println(list);
+
+    }
+    //根据上传时间降序排序
+    @Test
+    public void findorderbyupdatetime()
+    {
+
+        List<ResourceEntity> list  = resourceRepository.findAllByDeleteFlagFalseOrderByUploadDateDesc();
         System.out.println(resourceRepository.count());
         System.out.println(list);
 

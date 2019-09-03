@@ -12,7 +12,13 @@ public interface ResourceRepository extends JpaRepository<ResourceEntity,Integer
 
    // public List<ResourceEntity> findByDeleteFlagOrderByDownloadTimesDeleteFlagDesc(int deleteflag);
 
+    //根据下载次数降序排序
     public List<ResourceEntity> findAllByDeleteFlagFalseOrderByDownloadTimesDesc();
+
+    //根据上传时间排序
+    public List<ResourceEntity> findAllByDeleteFlagFalseOrderByUploadDateDesc();
+
+
 
     public ArrayList<ResourceEntity> findAll();
 
