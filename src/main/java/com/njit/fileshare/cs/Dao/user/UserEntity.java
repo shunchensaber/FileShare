@@ -30,6 +30,9 @@ public class UserEntity {
     @Column(nullable = false)
     private Integer classId = 1;
 
+    @Column
+    private boolean isDeleteflag =false;
+
 //    @ManyToOne(targetEntity = ClassEntity.class,fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_class_id",referencedColumnName = "classId")
 //    private ClassEntity classEntity;

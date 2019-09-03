@@ -21,10 +21,10 @@ public class ClassEntity {
     private String className; //班级名称
 
     @Column
-    private String school; //班级学院名
+    private Integer id; //班级学院名
 
     @Column
-    private String discpline; //班级专业名
+    private Integer discplineid; //班级专业名
 
     @Column
     private boolean isdeleate; //删除标记
@@ -42,14 +42,5 @@ public class ClassEntity {
 //    @JoinColumn(name="class_resource_id")
 //    private List<ResourceEntity> resources;   //班级文件
 
-    @Override
-    public String toString() {
-        return "ClassEntity{" +
-                "classId=" + classId +
-                ", className='" + className + '\'' +
-                ", school='" + school + '\'' +
-                ", discpline='" + discpline + '\'' +
-                ", isdeleate=" + isdeleate +
-                '}';
-    }
+
 }
