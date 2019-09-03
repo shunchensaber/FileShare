@@ -1,11 +1,16 @@
 package com.njit.fileshare.cs.Dao.Class;
 
+import com.njit.fileshare.cs.Dao.resource.ResourceEntity;
 import com.njit.fileshare.cs.Dao.user.UserEntity;
+import lombok.Data;
 
 import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@Data
 public class ClassEntity {
 
     @Id
@@ -16,54 +21,35 @@ public class ClassEntity {
     private String className; //班级名称
 
     @Column
-    private String school; //班级专业名
+    private String school; //班级学院名
+
+    @Column
+    private String discpline; //班级专业名
 
     @Column
     private boolean isdeleate; //删除标记
 
-    @OneToMany(targetEntity = UserEntity.class)
-    @JoinColumn(name = "user_class_id",referencedColumnName = "classId")
-    private Set<UserEntity> classusers;
-    public ClassEntity() {
-    }
+//    @OneToMany(mappedBy = "classEntity",fetch = FetchType.LAZY) //班级内成员
+//    private List<UserEntity> classusers;
+//
 
-    public Integer getClassId() {
-        return classId;
-    }
+    /**
+     * 放弃多对多维护
+     * 2019/9。2
+     * @return
+     */
+//    @ManyToMany
+//    @JoinColumn(name="class_resource_id")
+//    private List<ResourceEntity> resources;   //班级文件
 
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
-    public boolean isIsdeleate() {
-        return isdeleate;
-    }
-
-    public void setIsdeleate(boolean isdeleate) {
-        this.isdeleate = isdeleate;
-    }
-
-    public Set<UserEntity> getClassusers() {
-        return classusers;
-    }
-
-    public void setClassusers(Set<UserEntity> classusers) {
-        this.classusers = classusers;
+    @Override
+    public String toString() {
+        return "ClassEntity{" +
+                "classId=" + classId +
+                ", className='" + className + '\'' +
+                ", school='" + school + '\'' +
+                ", discpline='" + discpline + '\'' +
+                ", isdeleate=" + isdeleate +
+                '}';
     }
 }

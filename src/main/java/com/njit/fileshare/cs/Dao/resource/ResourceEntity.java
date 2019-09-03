@@ -1,11 +1,15 @@
 package com.njit.fileshare.cs.Dao.resource;
 
+import com.njit.fileshare.cs.Dao.user.UserEntity;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 /**
  * 上传文件信息
  */
+@Data
 @Entity
 public class ResourceEntity {
     @Id
@@ -15,8 +19,7 @@ public class ResourceEntity {
     @Column(nullable = false)
     private String resourceRealName;//文件名
 
-    @Column(nullable = false)
-    private String uploader; //文件上传者
+
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -43,107 +46,17 @@ public class ResourceEntity {
     @Column
     private String label2; //文件标记2
 
-    public ResourceEntity() {
-    }
+    @Column
+    private Integer resource_user_id; //文件上传者
 
-    public ResourceEntity(String resourceRealName, String uploader, Date uploadDate, String resourceType, long resourcesize, int downloadTimes, String resourcePath, boolean deleteFlag, String label1, String label2) {
-        this.resourceRealName = resourceRealName;
-        this.uploader = uploader;
-        this.uploadDate = uploadDate;
-        this.resourceType = resourceType;
-        this.resourcesize = resourcesize;
-        this.downloadTimes = downloadTimes;
-        this.resourcePath = resourcePath;
-        this.deleteFlag = deleteFlag;
-        this.label1 = label1;
-        this.label2 = label2;
-    }
+    /**
+     * 放弃外键维护
+     * 2019.9.1
+     */
+//    @ManyToOne(targetEntity = UserEntity.class,fetch = FetchType.LAZY)
+//    @JoinColumn(name = "resource_user_id",referencedColumnName = "userId")  //上传者，与用户相互关联
+//    private UserEntity uploader ;
 
-    public Integer getResourceId() {
-        return resourceId;
-    }
 
-    public void setResourceId(Integer resourceId) {
-        this.resourceId = resourceId;
-    }
 
-    public String getResourceRealName() {
-        return resourceRealName;
-    }
-
-    public void setResourceRealName(String resourceRealName) {
-        this.resourceRealName = resourceRealName;
-    }
-
-    public String getUploader() {
-        return uploader;
-    }
-
-    public void setUploader(String uploader) {
-        this.uploader = uploader;
-    }
-
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public long getResourcesize() {
-        return resourcesize;
-    }
-
-    public void setResourcesize(long resourcesize) {
-        this.resourcesize = resourcesize;
-    }
-
-    public int getDownloadTimes() {
-        return downloadTimes;
-    }
-
-    public void setDownloadTimes(int downloadTimes) {
-        this.downloadTimes = downloadTimes;
-    }
-
-    public String getResourcePath() {
-        return resourcePath;
-    }
-
-    public void setResourcePath(String resourcePath) {
-        this.resourcePath = resourcePath;
-    }
-
-    public boolean isDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
-
-    public String getLabel1() {
-        return label1;
-    }
-
-    public void setLabel1(String label1) {
-        this.label1 = label1;
-    }
-
-    public String getLabel2() {
-        return label2;
-    }
-
-    public void setLabel2(String label2) {
-        this.label2 = label2;
-    }
 }

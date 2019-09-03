@@ -1,9 +1,10 @@
 package com.njit.fileshare.cs.Dao.user;
 
 import com.njit.fileshare.cs.Dao.Class.ClassEntity;
+import lombok.Data;
 
 import javax.persistence.*;
-
+@Data
 @Entity
 public class UserEntity {
 
@@ -11,8 +12,14 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
+    /**
+     * user_class_id 查询不出数据，插入也是鸡肋
+     * mother fuck
+     * 坑先放这里，改日来研究
+     * 2019.08.31
+     */
     @Transient
-    private Integer classid;
+    private Integer user_class_id;
 
     @Column(nullable = false)
     private String username;
@@ -20,57 +27,11 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne(targetEntity = ClassEntity.class)
-    @JoinColumn(name = "user_class_id",referencedColumnName = "classId")
-    private ClassEntity classEntity;
+    @Column(nullable = false)
+    private Integer classId = 1;
 
-    public UserEntity() {
-    }
+//    @ManyToOne(targetEntity = ClassEntity.class,fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_class_id",referencedColumnName = "classId")
+//    private ClassEntity classEntity;
 
-    public UserEntity(Integer classid, String username, String password, ClassEntity classEntity) {
-        this.classid = classid;
-        this.username = username;
-        this.password = password;
-        this.classEntity = classEntity;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getClassid() {
-        return classid;
-    }
-
-    public void setClassid(Integer classid) {
-        this.classid = classid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public ClassEntity getClassEntity() {
-        return classEntity;
-    }
-
-    public void setClassEntity(ClassEntity classEntity) {
-        this.classEntity = classEntity;
-    }
 }
