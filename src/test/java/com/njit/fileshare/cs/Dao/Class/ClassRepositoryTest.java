@@ -24,8 +24,8 @@ public class ClassRepositoryTest {
     {
         ClassEntity classEntity = new ClassEntity();
         classEntity.setClassName("网嵌172");
-        classEntity.setSchool("计算机工程学院");
-        classEntity.setDiscpline("网络工程");
+//        classEntity.setSchool("计算机工程学院");
+//        classEntity.setDiscpline("网络工程");
         ClassEntity classEntity1  =  classRepository.save(classEntity);
         Assert.assertNotNull(classEntity1);
     }
