@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <title>上传文档</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         .nav-justified {
             width: 100%;
@@ -28,18 +24,50 @@
             list-style: none;
             padding-top: 26px;
         }
+
         .input-group {
             position: relative;
             display: table;
             border-collapse: separate;
-            width: 80%;
-            margin-left: 10%;
-            margin-top: 35px;
+            width: 79%;
+            margin: 25px auto;
         }
         .input-group-addon {
             border-right: 0;
             width: 99px;
             background-color: antiquewhite;
+        }
+        .button-place {
+            /* margin-top: 85px; */
+            /* margin-left: 39%; */
+            margin: 50px auto;
+            width: 40%;
+            margin-top: 25px;
+        }
+        .button-place button {
+            width: 100px;
+            height: 48px;
+            background-color: antiquewhite;
+            border: 0.5px;
+            border-radius: 12%;
+            border-style: solid;
+            margin: 14px;
+        }
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            /* display: flex; */
+            /* align-items: center; */
+            width: 60%;
+            margin: 10px auto;
+        }
+        .alert-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            margin: 10px auto;
+            width: 60%;
         }
     </style>
 </head>
@@ -49,15 +77,15 @@
         <div class="navbar-header">
             <p class="navbar-text">南工知享文件管理系统</p>
             <ul class="nav nav-pills nav-justified">
-                <li role="presentation" class="active"><a href="#">上传文件</a></li>
-                <li role="presentation"><a href="#">管理文件</a></li>
+                <li role="presentation" class="active"><a href="/uploadfile">上传文件</a></li>
+                <li role="presentation"><a href="/managefiles">管理文件</a></li>
                 <!--    <li role="presentation"><a href="#">Messages</a></li>-->
             </ul>
         </div>
     </div>
 </nav>
 
-<form>
+<div style="margin-top: 110px">
 <!--    文件名-->
     <div class="input-group input-group-lg">
         <span class="input-group-addon" id="sizing-addon1">文件名</span>
@@ -67,20 +95,12 @@
 <!--    学院专业选择-->
     <div class="input-group input-group-lg">
         <span class="input-group-addon" id="sizing-addon2-1">学院</span>
-        <select class="form-control" id="schoolname" name="schoolname">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+        <select class="form-control" id="schoolname" name="schoolname" onchange="changediscpline()">
+
         </select>
         <span class="input-group-addon" id="sizing-addon2-2">专业</span>
         <select class="form-control" id="discplinename" name = "discplinename">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+
         </select>
     </div>
 <!--    标记-->
@@ -95,21 +115,139 @@
     <div class = "input-group input-group-lg">
         <span class="input-group-addon" id="sizing-addon4">选择文件</span>
 <!--        <input type="file" class="form-control" placeholder="请输入你想要上传的文件" aria-describedby="sizing-addon1" id="file" name="file">-->
-            <input id='location' class="form-control" onclick="$('#i-file').click();">
+           <input id="up_file" name = "up_file " type="file" style="display: none" onchange="upload_file_name();">
+            <input id='location' class="form-control" onclick="select_file();">
             <label class="input-group-btn">
-                <input type="button" id="i-check" value="浏览文件" class="btn btn-primary" onclick="$('#i-file').click();">
+                <input type="button" id="i-check" value="浏览文件" class="btn btn-primary" onclick="select_file()">
             </label>
 
     </div>
-</form>
+    <div class="alert alert-success alert-dismissable" style="display: none">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        成功！很好地完成了提交。
+    </div>
+
+
+    <div class="alert alert-danger alert-dismissable" style="display: none">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        错误！请进行一些更改。
+    </div>
+    <div class="button-place">
+        <button id="upload">上传</button>
+        <button type="reset" >重置</button>
+    </div>
+
+
+</div>
+
+
+<script>
+    //上传
+    $("#upload").click(function () {
+        var formdata = new FormData();
+        var filename = $("#filename").val();
+        var schoolname = $("#schoolname").val();
+        var discplinename = $("#discplinename").val();
+        var label1 = $("#label1").val();
+        var label2 = $("#label2").val();
+
+        formdata.append("filename",filename);
+        formdata.append("schoolname",schoolname);
+        formdata.append("discplinename",discplinename);
+        formdata.append("label1",label1);
+        formdata.append("label2",label2);
+
+        formdata.append("file",$("#up_file")[0].files[0]);
+       // alert($("#filename").val());
+
+        $.ajax({
+            url:"uploadfile",
+            type:"post",
+            data:formdata,
+            datatype:'json',
+            processData:false,
+            contentType:false,
+            success:function (request) {
+                console.log(request['code']==200)
+                if(request["code"]==200)
+                {
+                    $(".alert-success").show();
+                }
+                else{
+                    $(".alert-danger").show();
+                }
+
+            }
+
+
+        })
+
+    })
+
+    var discpline;
+
+    $.get("getDiscpline",function (data,status) {
+        discpline = data
+
+        $("#schoolname").empty();
+        var school;
+        for(var key in discpline) {
+             school += '<option>' + key + '</option>'
+
+        }
+        $("#schoolname").append(school);
+        changediscpline();
 
 
 
+
+    })
+
+    // $("#schoolname option").click(function () {
+    //     $("#discplinename").empty();
+    //     alert(1);
+    //     // var realdiscpline = discpline.get($(this).value())
+    //     // $("#discplinename").append(discpline.get())
+    //     //
+    // })
+    function changediscpline() {
+        $("#discplinename").empty();
+        var school = $("#schoolname").val();
+        var realdiscpline = discpline[school];
+        var str = "";
+        for(var i = 0;i<realdiscpline.length;i++)
+        {
+            str+='<option>'+realdiscpline[i]['name']+'</option>';
+        }
+        $("#discplinename").append(str);
+
+    }
+
+    function select_file() {
+        document.getElementById("up_file").click();
+
+    }
+
+    function upload_file_name() {
+        var up_file = document.getElementById("up_file");
+        var location = document.getElementById("location");
+        location.value = up_file.value;
+
+    }
+
+
+
+
+</script>
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjO   MaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+
 
 </body>
 </html>

@@ -1,18 +1,20 @@
 package com.njit.fileshare.cs.Dao.Discpline;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
+@Data
 public class DiscplineEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
     private String name;  //专业名称
 
     @Column
-    private Integer SchoolId; //学院Id
+    private Integer schoolId; //学院Id
 }

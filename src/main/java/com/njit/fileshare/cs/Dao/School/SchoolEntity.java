@@ -1,8 +1,11 @@
 package com.njit.fileshare.cs.Dao.School;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 public class SchoolEntity {
 
     @Id

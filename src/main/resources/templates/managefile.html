@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文档</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+
+        .nav-justified {
+            width: 100%;
+        }
+
+        .navbar-text {
+            float: left;
+            margin-right: 15px;
+            margin-left: 15px;
+            font-size: 40px;
+        }
+
+        .nav {
+            padding-left: 65%;
+            list-style: none;
+            padding-top: 26px;
+        }
+
+        .card {
+            /* width: 100%; */
+            flex-direction: row;
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card .type {
+            width: 60px;
+            height: 63px;
+        }
+
+        .card .text {
+            font-size: 18px;
+            font-weight: 800;
+            margin-left: 20px;
+            width: 123px;
+        }
+
+        .label-container {
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            margin-left: 193px;
+            /* margin-right: 92px; */
+        }
+
+
+
+        .label1 {
+            border: 1px solid;
+            border-radius: 20%;
+            width: 65px;
+            height: 25px;
+            text-align: center;
+            margin: 5px;
+            color: #d81e06;
+        }
+
+        .see {
+            width: 42px;
+            height: 42px;
+            /* margin: auto; */
+
+            margin-top: 8px;
+        }
+
+        .back {
+            margin: 10px;
+            margin-top: 0px;
+            text-align: center;
+            margin-left: 17px;
+            margin-right: 0px;
+        }
+        .back .text {
+            font-size: 10px;
+            font-weight: 600;
+            margin: 2px auto;
+        }
+        .btn-success {
+            color: #fff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+            width: 98px;
+            height: 41px;
+            margin-top: 20px;
+            margin-left: 13px;
+            margin-top: -6px;
+        }
+        .pagination {
+            /* display: inline-block; */
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <p class="navbar-text">南工知享文件管理系统</p>
+            <ul class="nav nav-pills nav-justified">
+                <li role="presentation"><a href="/uploadfile">上传文件</a></li>
+                <li role="presentation" class="active"><a href="/managefiles">管理文件</a></li>
+                <!--    <li role="presentation"><a href="#">Messages</a></li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--<div class="card">-->
+<!--    <img class="type" src="images/pdf.png">-->
+<!--    <div>-->
+<!--        <div class="text">[最新]部编版语文一年级上册练字帖</div>-->
+<!--        <div class="label-container">-->
+<!--            <div class="label1">大一</div>-->
+<!--            <div class="label1">高等数学</div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="back">-->
+<!--        <img class="see" src="images/下载.png">-->
+<!--        <div class="text"> 100</div>-->
+<!--    </div>-->
+<!--    <div class="back">-->
+<!--        <img class="see" src="images/预览.png">-->
+<!--        <div class="text"> 预览</div>-->
+<!--    </div>-->
+
+<!--    <button type="button" class="btn btn-success">删除该资源</button>-->
+
+<!--<div>-->
+<!--    <span>文件名</span>-->
+<!--    <span>下载量</span>-->
+<!--    <span>预览</span>-->
+<!--    <span>删除</span>-->
+<!--</div>-->
+
+<!--</div>-->
+<div class="dataplace">
+
+</div>
+<ul class="pagination pagination-lg">
+
+</ul>
+<script>
+    $.get("getpages",
+    function (data,status) {
+        console.log(data['data']);
+        var pages = data['data'];
+        var str ='<li><a href="#">&laquo;</a></li>\n';
+        for(var i =1;i<=pages;i++)
+        {
+            str+='<li><a href="#"'+'onclick="changedata('+i+')"' +'>'+i+'</a></li>';
+        }
+        str+='    <li><a href="#">&raquo;</a></li>\n';
+
+        $(".pagination-lg").append(str);
+    }
+    )
+    changedata(1);
+
+    function changedata(page) {
+        $(".dataplace").empty();
+        $.get("searchresource",
+        {
+            page:page
+        },function f(data,status) {
+            console.log(data);
+            var resource = data['data'];
+            console.log(resource)
+
+            var str = ""
+            for(var i =0;i<resource.length;i++)
+            {
+                str +='<div class="card"> <img class="type" src='
+                    +"images/pdf.png"
+                    +'> <div> <div class="text">'
+                    +resource[i]["resourceRealname"]+
+            '</div> <div class="label-container"> <div class="label1">'+
+                    resource[i]["label1"]+'</div> <div class="label1">'+resource[i]["label2"]+
+            '</div> </div> </div> <div class="back"> <img class="see" src="images/下载.png"> <div class="text"> ' +
+                    resource[i]["downloadTimes"]+'</div> </div> <div class="back" onclick="look('+"'"+ resource[i]["resourceId"]+"'"+')"> <img class="see" src="images/预览.png"> <div class="text"> 预览</div> ' +
+                    '</div> <button type="button" class="btn btn-success" onclick="delete()">删除该资源</button> </div>';
+            }
+            $(".dataplace").append(str);
+
+
+        })
+
+        
+    }
+    function look(resourceid) {
+
+        // $.get("preview",{
+        //     id:resourceid
+        // })
+        window.open("preview?id="+resourceid)
+
+    }
+</script>
+</body>
+</html>
+
